@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
+import android.util.Log
 
 import androidx.core.content.ContextCompat
 
@@ -37,12 +39,16 @@ class  RnRealTimeTrackerModule(private val reactContext: ReactApplicationContext
 
     @ReactMethod
     fun startBackgroundLocation() {
-        ContextCompat.startForegroundService(this.reactContext, mForegroundServiceIntent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            reactContext.startForegroundService(mForegroundServiceIntent)
+        } else {
+            reactContext.startService(mForegroundServiceIntent)
+        }
     }
 
     @ReactMethod
     fun stopBackgroundLocation() {
-        this.reactContext.stopService(mForegroundServiceIntent)
+       reactContext.stopService(mForegroundServiceIntent)
     }
 
     @ReactMethod

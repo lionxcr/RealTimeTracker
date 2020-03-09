@@ -14,9 +14,7 @@ const RNTracker = {
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION
     );
-    console.log('PERMISSIONS CHECK')
-    console.log(granted)
-    return granted === PermissionsAndroid.RESULTS.GRANTED;
+    return granted;
   },
   requestAndroidPermission: async (title, message, buttonNegative, buttonPositive) => {
     try {
@@ -31,19 +29,24 @@ const RNTracker = {
           buttonPositive
         }
       );
-      console.log('PERMISSIONS REQUEST')
-      console.log(granted)
-      return granted === PermissionsAndroid.RESULTS.GRANTED
+      const keys = Object.keys(granted);
+      const result = keys.map(k => granted[k]);
+      let permissionsGranted = true;
+      result.forEach(r => {
+        if (r !== 'granted'){
+          permissionsGranted = false;
+        }
+      });
+      return permissionsGranted;
     } catch (error) {
-      console.error(error);
       return false;
     }
   },
   startTracker: () => RnRealTimeTracker.startBackgroundLocation(),
   stopTracker: () => RnRealTimeTracker.stopBackgroundLocation(),
   getCurrentLocation: () => RnRealTimeTracker.getCurrentLocationForUser(),
-  trackerServiceEvent: RnRealTimeTracker.JS_LOCATION_EVENT_NAME,
-  trackerCurrentLocationEvent: RnRealTimeTracker.JS_CURRENT_LOCATION_EVENT_NAME
+  trackerServiceEvent: RnRealTimeTracker.RN_LOCATION_EVENT,
+  trackerCurrentLocationEvent: RnRealTimeTracker.RN_CURRENT_LOCATION_EVENT
 }
 
 export default RNTracker;

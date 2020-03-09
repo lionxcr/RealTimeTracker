@@ -4,17 +4,14 @@ import android.annotation.SuppressLint
 import android.app.IntentService
 import android.content.Intent
 import android.os.Handler
+import android.os.Looper
+import com.google.android.gms.location.*
 
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
 import com.google.gson.Gson
 
 import java.util.Date
 
-class TrackerBackgroundService : IntentService(TrackerBackgroundService::class.java.name) {
+class TrackerBackgroundService: IntentService(TrackerBackgroundService::class.java.name) {
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     private var mLocationCallback: LocationCallback? = null
     private val mGson: Gson
@@ -33,7 +30,14 @@ class TrackerBackgroundService : IntentService(TrackerBackgroundService::class.j
                 .setInterval(0)
                 .setFastestInterval(0)
 
-        Handler(mainLooper).post { mFusedLocationClient!!.requestLocationUpdates(locationRequest, mLocationCallback!!, null) }
+        val builder: LocationSettingsRequest.Builder = LocationSettingsRequest.Builder()
+        builder.addLocationRequest(locationRequest)
+        val locationSettingsRequest: LocationSettingsRequest = builder.build()
+
+        val settingsClient: SettingsClient = LocationServices.getSettingsClient(applicationContext)
+        settingsClient.checkLocationSettings(locationSettingsRequest)
+
+        Handler(applicationContext.mainLooper).post { mFusedLocationClient!!.requestLocationUpdates(locationRequest, mLocationCallback!!, Looper.myLooper()) }
     }
 
     private fun createLocationRequestCallback(): LocationCallback {
@@ -45,8 +49,8 @@ class TrackerBackgroundService : IntentService(TrackerBackgroundService::class.j
                 for (location in locationResult.locations) {
                     val locationCoordinates = createCoordinates(location.latitude, location.longitude)
                     broadcastLocationReceived(locationCoordinates)
-                    mFusedLocationClient!!.removeLocationUpdates(mLocationCallback!!)
                 }
+                mFusedLocationClient!!.removeLocationUpdates(mLocationCallback!!)
             }
         }
     }

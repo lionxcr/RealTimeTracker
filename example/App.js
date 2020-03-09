@@ -9,35 +9,36 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, TouchableHighlight, DeviceEventEmitter } from 'react-native';
+import { Platform, StyleSheet, Text, View, TouchableHighlight, DeviceEventEmitter, SafeAreaView } from 'react-native';
 import RnRealTimeTracker from 'RealTimeTracker';
 
 export default class App extends Component {
   state = {
-    currentLocation: null,
-    foregroundLocation: null
+    currentLocation: '',
+    foregroundLocation: ''
   };
+
   componentDidMount() {
-    console.log('HERE')
-    console.log('EVENTS')
-    console.log(RnRealTimeTracker.trackerServiceEvent)
-    console.log(RnRealTimeTracker.trackerCurrentLocationEvent)
     this.serviceSubscription = DeviceEventEmitter.addListener(
       RnRealTimeTracker.trackerServiceEvent,
-      location => this.setState({
-        foregroundLocation: location
-      }, () => console.log(
-        `Received Coordinates from service at ${new Date(
-          location.timestamp,
-        ).toTimeString()}: `,
-        location.latitude,
-        location.longitude,
-      ))
+      location => {
+        console.log('HERE FOREGROUND', location)
+        this.setState({
+          foregroundLocation: location
+        }, () => console.log(
+          `Received Coordinates from service at ${new Date(
+            location.timestamp,
+          ).toTimeString()}: `,
+          location.latitude,
+          location.longitude,
+        ))
+      }
     );
+
     this.currentLocationSubscription = DeviceEventEmitter.addListener(
       RnRealTimeTracker.trackerCurrentLocationEvent,
       location => {
-        console.log('HERE', location)
+        console.log('HERE CURRENT', location)
         this.setState({
           currentLocation: location
         }, () => console.log(
@@ -60,11 +61,9 @@ export default class App extends Component {
     if (Platform.OS === 'android') {
       const granted = await RnRealTimeTracker.checkAndroidPermissions()
       if (granted) {
-        console.log('PERMISSIONS GRANTED', granted);
         RnRealTimeTracker.startTracker();
       } else {
         const granted = await RnRealTimeTracker.requestAndroidPermission('Need Permissions', 'This cool example needs your GPS Permissions', 'Cancel', 'Grant');
-        console.log('PERMISSIONS ARE NOT GRANTED BUT REQUESTED', granted);
         if (granted) {
           RnRealTimeTracker.startTracker();
         }
@@ -77,39 +76,37 @@ export default class App extends Component {
   }
 
   async getCurrentLocation() {
-    if (Platform.OS === 'android') {
-      const granted = await RnRealTimeTracker.checkAndroidPermissions()
+    const granted = await RnRealTimeTracker.checkAndroidPermissions()
+    if (granted) {
+      RnRealTimeTracker.getCurrentLocation();
+    } else {
+      const granted = await RnRealTimeTracker.requestAndroidPermission('Need Permissions', 'This cool example needs your GPS Permissions', 'Cancel', 'Grant');
       if (granted) {
-        console.log('CURRENT PERMISSIONS GRANTED', granted);
         RnRealTimeTracker.getCurrentLocation();
-      } else {
-        const granted = await RnRealTimeTracker.requestAndroidPermission('Need Permissions', 'This cool example needs your GPS Permissions', 'Cancel', 'Grant');
-        console.log('CURRENT PERMISSIONS ARE NOT GRANTED BUT REQUESTED', granted);
-        if (granted) {
-          RnRealTimeTracker.getCurrentLocation();
-        }
       }
     }
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>☆RnRealTimeTracker example☆</Text>
-        <Text style={styles.welcome}>☆CURRENT LOCATION☆</Text>
-        <Text style={styles.instructions}>{this.state.currentLocation}</Text>
-        <TouchableHighlight style={styles.button} onPress={this.getCurrentLocation}>
-          <Text style={styles.text}>Get Current Location</Text>
-        </TouchableHighlight>
-        <Text style={styles.welcome}>☆FOREGROUND LOCATION☆</Text>
-        <Text style={styles.instructions}>{this.state.foregroundLocation}</Text>
-        <TouchableHighlight style={styles.button} onPress={this.enableTracker}>
-          <Text style={styles.text}>Enable Location</Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.button} onPress={this.stopTracker}>
-          <Text style={styles.text}>Cancel Location</Text>
-        </TouchableHighlight>
-      </View>
+      <SafeAreaView style={{flex: 1}}>
+        <View style={styles.container}>
+          <Text style={styles.welcome}>☆RnRealTimeTracker example☆</Text>
+          <Text style={styles.welcome}>☆CURRENT LOCATION☆</Text>
+          <Text style={styles.instructions}>{JSON.stringify(this.state.currentLocation)}</Text>
+          <TouchableHighlight style={styles.button} onPress={this.getCurrentLocation}>
+            <Text style={styles.text}>Get Current Location</Text>
+          </TouchableHighlight>
+          <Text style={styles.welcome}>☆FOREGROUND LOCATION☆</Text>
+          <Text style={styles.instructions}>{JSON.stringify(this.state.foregroundLocation)}</Text>
+          <TouchableHighlight style={styles.button} onPress={this.enableTracker}>
+            <Text style={styles.text}>Enable Location</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={this.stopTracker}>
+            <Text style={styles.text}>Cancel Location</Text>
+          </TouchableHighlight>
+        </View>
+      </SafeAreaView>
     );
   }
 }
@@ -119,10 +116,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
     height: '100%',
     flexDirection: 'column',
-    paddingHorizontal: 50,
+    paddingHorizontal: 20,
   },
   welcome: {
     fontSize: 20,
