@@ -9,52 +9,61 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, TouchableHighlight, DeviceEventEmitter, SafeAreaView } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight,
+  DeviceEventEmitter,
+  SafeAreaView
+} from 'react-native';
 import RnRealTimeTracker from 'RealTimeTracker';
 
 export default class App extends Component {
-  state = {
-    currentLocation: '',
-    foregroundLocation: ''
-  };
+  constructor(props){
+    super(props);
+    this.state = {
+      currentLocation: '',
+      foregroundLocation: ''
+    };
+    this.stopTracker = this.stopTracker.bind(this);
+    this.onLocation = this.onLocation.bind(this);
+    this.onCurrentLocation = this.onCurrentLocation.bind(this);
+  }
 
   componentDidMount() {
-    this.serviceSubscription = DeviceEventEmitter.addListener(
-      RnRealTimeTracker.trackerServiceEvent,
-      location => {
-        console.log('HERE FOREGROUND', location)
-        this.setState({
-          foregroundLocation: location
-        }, () => console.log(
-          `Received Coordinates from service at ${new Date(
-            location.timestamp,
-          ).toTimeString()}: `,
-          location.latitude,
-          location.longitude,
-        ))
-      }
-    );
-
-    this.currentLocationSubscription = DeviceEventEmitter.addListener(
-      RnRealTimeTracker.trackerCurrentLocationEvent,
-      location => {
-        console.log('HERE CURRENT', location)
-        this.setState({
-          currentLocation: location
-        }, () => console.log(
-          `Received Coordinates from current location at ${new Date(
-            location.timestamp,
-          ).toTimeString()}: `,
-          location.latitude,
-          location.longitude,
-        ))
-      }
-    );
+    this.serviceSubscription = RnRealTimeTracker.trackerServiceEvent(this.onLocation);
+    this.currentLocationSubscription = RnRealTimeTracker.trackerCurrentLocationEvent(this.onCurrentLocation);
   }
 
   componentWillUnmount() {
     this.serviceSubscription.remove();
     this.currentLocationSubscription.remove();
+  }
+
+  onLocation(location) {
+    this.setState({
+      foregroundLocation: location
+    }, () => console.log(
+      `Received Coordinates from service at ${new Date(
+        location.timestamp,
+      ).toTimeString()}: `,
+      location.latitude,
+      location.longitude,
+    ))
+  }
+
+  onCurrentLocation(location) {
+    this.setState({
+      currentLocation: location
+    }, () => console.log(
+      `Received Coordinates from service at ${new Date(
+        location.timestamp,
+      ).toTimeString()}: `,
+      location.latitude,
+      location.longitude,
+    ))
   }
 
   async enableTracker() {
@@ -73,6 +82,9 @@ export default class App extends Component {
 
   stopTracker() {
     RnRealTimeTracker.stopTracker();
+    this.setState({
+      foregroundLocation: ''
+    })
   }
 
   async getCurrentLocation() {
