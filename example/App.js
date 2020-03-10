@@ -11,6 +11,7 @@
 import React, { Component } from 'react';
 import {
   Platform,
+  Alert,
   StyleSheet,
   Text,
   View,
@@ -34,10 +35,24 @@ export default class App extends Component {
 
   componentDidMount() {
     this.serviceSubscription = RnRealTimeTracker.trackerServiceEvent(this.onLocation);
+    if(Platform.OS === 'ios') {
+      this.serviceFailedSubscription = RnRealTimeTracker.trackerServiceFailedEvent(this.onErrorEvent);
+    }
   }
 
   componentWillUnmount() {
     this.serviceSubscription.remove();
+    if(Platform.OS === 'ios') {
+      this.serviceFailedSubscription.remove();
+    }
+  }
+
+  onErrorEvent(error) {
+    Alert.alert(
+      'Error Getting GPS',
+      error.description,
+      {cancelable: true},
+    );
   }
 
   onLocation(location) {

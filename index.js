@@ -49,6 +49,10 @@ const RNTracker = {
   trackerServiceEvent: (handler) => DeviceEventEmitter.addListener(
     RnRealTimeTracker.RN_LOCATION_EVENT,
     location => handler(location)
+  ),
+  trackerServiceFailedEvent: (handler) => DeviceEventEmitter.addListener(
+    RnRealTimeTracker.RN_LOCATION_EVENT_DENIED,
+    error => handler(error)
   )
 }
 

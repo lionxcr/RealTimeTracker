@@ -90,7 +90,6 @@ class  RnRealTimeTrackerModule(private val reactContext: ReactApplicationContext
 
     companion object {
         private const val CONST_RN_LOCATION_EVENT = "RN_LOCATION_EVENT"
-        private const val CONST_RN_CURRENT_LOCATION_EVENT = "RN_CURRENT_LOCATION_EVENT"
         private const val CONST_RN_LOCATION_LAT = "RN_LOCATION_LAT"
         private const val CONST_RN_LOCATION_LON = "RN_LOCATION_LON"
         private const val CONST_RN_LOCATION_TIME = "RN_LOCATION_TIME"
