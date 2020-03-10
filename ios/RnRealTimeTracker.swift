@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import CoreLocation
 
 @objc(RnRealTimeTracker)
 class RnRealtimeTracker: NSObject, RCTBridgeModule {
