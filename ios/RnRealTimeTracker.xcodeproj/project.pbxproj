@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		AA83340F241784250004C4B3 /* RnRealTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA83340E241784250004C4B3 /* RnRealTimeTracker.swift */; };
-		AA83341E241786700004C4B3 /* RNBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = AA83341D241786700004C4B3 /* RNBridge.m */; };
 		AA833420241795270004C4B3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA83341F241795270004C4B3 /* Constants.swift */; };
 		AA833422241797E90004C4B3 /* GPSTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA833421241797E90004C4B3 /* GPSTracker.swift */; };
 		AA8334242417A13C0004C4B3 /* EventSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8334232417A13C0004C4B3 /* EventSender.swift */; };
 		AA8334262417A94B0004C4B3 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8334252417A94B0004C4B3 /* CoreLocation.framework */; };
-		C6BBE77E813E5E4D594DDEEC /* Pods_RnRealTimeTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B697C38D29DC54E6F1EB8ED /* Pods_RnRealTimeTracker.framework */; };
+		AA8334282417ADE90004C4B3 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8334272417ADE90004C4B3 /* JavaScriptCore.framework */; };
+		AA83343A2417B1340004C4B3 /* RnRealTimeTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8334392417B1340004C4B3 /* RnRealTimeTracker.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,11 +35,13 @@
 		857EE948D27E8726B2989064 /* Pods-RnRealTimeTracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RnRealTimeTracker.debug.xcconfig"; path = "Target Support Files/Pods-RnRealTimeTracker/Pods-RnRealTimeTracker.debug.xcconfig"; sourceTree = "<group>"; };
 		AA83340D241784250004C4B3 /* RnRealTimeTracker-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RnRealTimeTracker-Bridging-Header.h"; sourceTree = "<group>"; };
 		AA83340E241784250004C4B3 /* RnRealTimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RnRealTimeTracker.swift; sourceTree = "<group>"; };
-		AA83341D241786700004C4B3 /* RNBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNBridge.m; sourceTree = "<group>"; };
 		AA83341F241795270004C4B3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AA833421241797E90004C4B3 /* GPSTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPSTracker.swift; sourceTree = "<group>"; };
 		AA8334232417A13C0004C4B3 /* EventSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSender.swift; sourceTree = "<group>"; };
 		AA8334252417A94B0004C4B3 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
+		AA8334272417ADE90004C4B3 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		AA8334292417ADF20004C4B3 /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/IOBluetooth.framework; sourceTree = DEVELOPER_DIR; };
+		AA8334392417B1340004C4B3 /* RnRealTimeTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RnRealTimeTracker.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,8 +49,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA8334282417ADE90004C4B3 /* JavaScriptCore.framework in Frameworks */,
 				AA8334262417A94B0004C4B3 /* CoreLocation.framework in Frameworks */,
-				C6BBE77E813E5E4D594DDEEC /* Pods_RnRealTimeTracker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +68,8 @@
 		1F03221B2F7DB0A44977BCE2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA8334292417ADF20004C4B3 /* IOBluetooth.framework */,
+				AA8334272417ADE90004C4B3 /* JavaScriptCore.framework */,
 				AA8334252417A94B0004C4B3 /* CoreLocation.framework */,
 				0B697C38D29DC54E6F1EB8ED /* Pods_RnRealTimeTracker.framework */,
 			);
@@ -90,7 +94,7 @@
 				AA83340E241784250004C4B3 /* RnRealTimeTracker.swift */,
 				134814211AA4EA7D00B7C361 /* Products */,
 				AA83340D241784250004C4B3 /* RnRealTimeTracker-Bridging-Header.h */,
-				AA83341D241786700004C4B3 /* RNBridge.m */,
+				AA8334392417B1340004C4B3 /* RnRealTimeTracker.m */,
 				209BA6ACC1D6C997300CC1FB /* Pods */,
 				1F03221B2F7DB0A44977BCE2 /* Frameworks */,
 			);
@@ -180,9 +184,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA83341E241786700004C4B3 /* RNBridge.m in Sources */,
 				AA8334242417A13C0004C4B3 /* EventSender.swift in Sources */,
 				AA83340F241784250004C4B3 /* RnRealTimeTracker.swift in Sources */,
+				AA83343A2417B1340004C4B3 /* RnRealTimeTracker.m in Sources */,
 				AA833422241797E90004C4B3 /* GPSTracker.swift in Sources */,
 				AA833420241795270004C4B3 /* Constants.swift in Sources */,
 			);
@@ -304,6 +308,7 @@
 				);
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = RnRealTimeTracker;
 				SKIP_INSTALL = YES;
@@ -326,6 +331,7 @@
 				);
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = RnRealTimeTracker;
 				SKIP_INSTALL = YES;

@@ -18,6 +18,7 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* exampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* exampleTests.m */; };
+		AA8334382417AFF50004C4B3 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		BBE05857A809AFCFF03A3D9B /* libPods-example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D991B7C619AFC7B3A6806F3 /* libPods-example.a */; };
 		FEDF8698437F6C0DDFB56C39 /* libPods-example-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A07311C62F0E6E4AD570BA11 /* libPods-example-tvOSTests.a */; };
 /* End PBXBuildFile section */
@@ -82,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA8334382417AFF50004C4B3 /* JavaScriptCore.framework in Frameworks */,
 				BBE05857A809AFCFF03A3D9B /* libPods-example.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -148,7 +150,6 @@
 				763B62921308CDD2E0A77ACF /* Pods-exampleTests.debug.xcconfig */,
 				CE7159A3EB87C6B02B6C23E5 /* Pods-exampleTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -308,6 +309,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
