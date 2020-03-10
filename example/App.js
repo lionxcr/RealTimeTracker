@@ -15,7 +15,6 @@ import {
   Text,
   View,
   TouchableHighlight,
-  DeviceEventEmitter,
   SafeAreaView
 } from 'react-native';
 import RnRealTimeTracker from 'RealTimeTracker';
@@ -29,17 +28,16 @@ export default class App extends Component {
     };
     this.stopTracker = this.stopTracker.bind(this);
     this.onLocation = this.onLocation.bind(this);
+    this.getCurrentLocation = this.getCurrentLocation.bind(this);
     this.onCurrentLocation = this.onCurrentLocation.bind(this);
   }
 
   componentDidMount() {
     this.serviceSubscription = RnRealTimeTracker.trackerServiceEvent(this.onLocation);
-    this.currentLocationSubscription = RnRealTimeTracker.trackerCurrentLocationEvent(this.onCurrentLocation);
   }
 
   componentWillUnmount() {
     this.serviceSubscription.remove();
-    this.currentLocationSubscription.remove();
   }
 
   onLocation(location) {
@@ -90,11 +88,15 @@ export default class App extends Component {
   async getCurrentLocation() {
     const granted = await RnRealTimeTracker.checkAndroidPermissions()
     if (granted) {
-      RnRealTimeTracker.getCurrentLocation();
+      RnRealTimeTracker.getCurrentLocation()
+        .then(location => this.onCurrentLocation(location))
+        .catch(e => console.error(e));
     } else {
       const granted = await RnRealTimeTracker.requestAndroidPermission('Need Permissions', 'This cool example needs your GPS Permissions', 'Cancel', 'Grant');
       if (granted) {
-        RnRealTimeTracker.getCurrentLocation();
+        RnRealTimeTracker.getCurrentLocation()
+          .then(location => this.onCurrentLocation(location))
+          .catch(e => console.error(e));
       }
     }
   }
