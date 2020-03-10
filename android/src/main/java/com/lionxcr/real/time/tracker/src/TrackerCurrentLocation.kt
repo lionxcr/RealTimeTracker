@@ -4,25 +4,24 @@ import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.facebook.react.bridge.Arguments
-import com.facebook.react.bridge.ReactApplicationContext
+import com.facebook.react.bridge.*
 
-import com.facebook.react.bridge.ReactContext
-import com.facebook.react.bridge.WritableMap
 import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.google.android.gms.location.*
 import java.util.*
 
 
-class TrackerCurrentLocation(private val reactContext: ReactApplicationContext): EventSender {
+class TrackerCurrentLocation(private val reactContext: ReactApplicationContext) {
 
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
     private var mLocationCallback: LocationCallback? = null
+    private var locationPromise: Promise? = null
 
     @SuppressLint("MissingPermission")
-    fun findCurrentLocation() {
+    fun findCurrentLocation(promise: Promise) {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(reactContext)
         mLocationCallback = createLocationRequestCallback()
+        locationPromise = promise
 
         val locationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
@@ -44,6 +43,9 @@ class TrackerCurrentLocation(private val reactContext: ReactApplicationContext):
         return object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 if (locationResult == null) {
+                    if (locationPromise != null){
+                        locationPromise!!.reject(Error("Unable to get location"))
+                    }
                     return
                 }
                 for (location in locationResult.locations) {
@@ -54,11 +56,15 @@ class TrackerCurrentLocation(private val reactContext: ReactApplicationContext):
                             location.latitude)
                     eventData.putDouble(
                             TrackerForegroundService.JS_LOCATION_LON_KEY,
-                            location.latitude)
+                            location.longitude)
                     eventData.putDouble(
                             TrackerForegroundService.JS_LOCATION_TIME_KEY,
                             time.toDouble())
-                    sendEvents(reactContext, JS_CURRENT_LOCATION_EVENT_NAME, eventData)
+                    Log.d("CURRENT LOCATION", "GOT DATA")
+                    if (locationPromise != null){
+                        Log.d("CURRENT LOCATION", "RESOLVING PROMISE")
+                        locationPromise!!.resolve(eventData)
+                    }
 
                 }
 
@@ -66,16 +72,6 @@ class TrackerCurrentLocation(private val reactContext: ReactApplicationContext):
             }
 
         }
-    }
-
-    override fun sendEvents(reactContext: ReactContext, eventName: String, params: WritableMap) {
-        reactContext
-                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
-                .emit(eventName, params)
-    }
-
-    companion object {
-        const val JS_CURRENT_LOCATION_EVENT_NAME = "current_location"
     }
 
 }

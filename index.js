@@ -1,6 +1,7 @@
 import {
   NativeModules,
-  PermissionsAndroid
+  PermissionsAndroid,
+  DeviceEventEmitter
 } from 'react-native';
 
 
@@ -45,8 +46,10 @@ const RNTracker = {
   startTracker: () => RnRealTimeTracker.startBackgroundLocation(),
   stopTracker: () => RnRealTimeTracker.stopBackgroundLocation(),
   getCurrentLocation: () => RnRealTimeTracker.getCurrentLocationForUser(),
-  trackerServiceEvent: RnRealTimeTracker.RN_LOCATION_EVENT,
-  trackerCurrentLocationEvent: RnRealTimeTracker.RN_CURRENT_LOCATION_EVENT
+  trackerServiceEvent: (handler) => DeviceEventEmitter.addListener(
+    RnRealTimeTracker.RN_LOCATION_EVENT,
+    location => handler(location)
+  )
 }
 
 export default RNTracker;

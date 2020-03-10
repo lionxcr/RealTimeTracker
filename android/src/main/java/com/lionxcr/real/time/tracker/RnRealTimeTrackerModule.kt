@@ -5,17 +5,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Build
-import android.util.Log
 
 import androidx.core.content.ContextCompat
+import com.facebook.react.bridge.*
 
-import com.facebook.react.bridge.Arguments
-import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReactContext
-import com.facebook.react.bridge.ReactContextBaseJavaModule
-import com.facebook.react.bridge.ReactMethod
-import com.facebook.react.bridge.WritableMap
 import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.google.gson.Gson
 import com.lionxcr.real.time.tracker.src.*
@@ -39,11 +32,7 @@ class  RnRealTimeTrackerModule(private val reactContext: ReactApplicationContext
 
     @ReactMethod
     fun startBackgroundLocation() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            reactContext.startForegroundService(mForegroundServiceIntent)
-        } else {
-            reactContext.startService(mForegroundServiceIntent)
-        }
+        ContextCompat.startForegroundService(reactContext, mForegroundServiceIntent)
     }
 
     @ReactMethod
@@ -52,8 +41,8 @@ class  RnRealTimeTrackerModule(private val reactContext: ReactApplicationContext
     }
 
     @ReactMethod
-    fun getCurrentLocationForUser() {
-        currentTracker.findCurrentLocation()
+    fun getCurrentLocationForUser(promise: Promise) {
+        currentTracker.findCurrentLocation(promise)
     }
 
     override fun getConstants(): Map<String, Any>? {
@@ -62,7 +51,6 @@ class  RnRealTimeTrackerModule(private val reactContext: ReactApplicationContext
         constants[CONST_RN_LOCATION_LAT] = TrackerForegroundService.JS_LOCATION_LAT_KEY
         constants[CONST_RN_LOCATION_LON] = TrackerForegroundService.JS_LOCATION_LON_KEY
         constants[CONST_RN_LOCATION_TIME] = TrackerForegroundService.JS_LOCATION_TIME_KEY
-        constants[CONST_RN_CURRENT_LOCATION_EVENT] = TrackerCurrentLocation.JS_CURRENT_LOCATION_EVENT_NAME
         return constants
     }
 
