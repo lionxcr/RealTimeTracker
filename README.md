@@ -26,4 +26,8 @@ Request the Following Permissions in your info.plist
 	<string>Example Needs your Location</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Example Needs your Location</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 ```

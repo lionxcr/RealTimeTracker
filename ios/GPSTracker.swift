@@ -23,6 +23,7 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
         super.init()
         locationManager.delegate = self
         locationManager.distanceFilter = kCLLocationAccuracyBest
+        locationManager.allowsBackgroundLocationUpdates = true
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
     }
     
@@ -35,12 +36,18 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     }
     
     func getCurrentLocation() -> CLLocation? {
-        startLocationManager()
         if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
         CLLocationManager.authorizationStatus() == .authorizedAlways) {
             return locationManager.location
         } else {
-            return nil
+            startLocationManager()
+            if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
+            CLLocationManager.authorizationStatus() == .authorizedAlways) {
+                locationManager.stopUpdatingLocation()
+                return locationManager.location
+            } else {
+                return nil
+            }
         }
     }
     
