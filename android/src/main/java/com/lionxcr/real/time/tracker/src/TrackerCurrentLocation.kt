@@ -3,10 +3,8 @@ package com.lionxcr.real.time.tracker.src
 import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import com.facebook.react.bridge.*
 
-import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.google.android.gms.location.*
 import java.util.*
 
@@ -48,26 +46,21 @@ class TrackerCurrentLocation(private val reactContext: ReactApplicationContext) 
                     }
                     return
                 }
-                for (location in locationResult.locations) {
-                    val time = Date().time
-                    val eventData = Arguments.createMap()
-                    eventData.putDouble(
-                            TrackerForegroundService.JS_LOCATION_LAT_KEY,
-                            location.latitude)
-                    eventData.putDouble(
-                            TrackerForegroundService.JS_LOCATION_LON_KEY,
-                            location.longitude)
-                    eventData.putDouble(
-                            TrackerForegroundService.JS_LOCATION_TIME_KEY,
-                            time.toDouble())
-                    Log.d("CURRENT LOCATION", "GOT DATA")
-                    if (locationPromise != null){
-                        Log.d("CURRENT LOCATION", "RESOLVING PROMISE")
-                        locationPromise!!.resolve(eventData)
-                    }
-
+                val location = locationResult.locations.last()
+                val time = Date().time
+                val eventData = Arguments.createMap()
+                eventData.putDouble(
+                        TrackerForegroundService.JS_LOCATION_LAT_KEY,
+                        location.latitude)
+                eventData.putDouble(
+                        TrackerForegroundService.JS_LOCATION_LON_KEY,
+                        location.longitude)
+                eventData.putDouble(
+                        TrackerForegroundService.JS_LOCATION_TIME_KEY,
+                        time.toDouble())
+                if (locationPromise != null){
+                    locationPromise!!.resolve(eventData)
                 }
-
                 fusedLocationProviderClient!!.removeLocationUpdates(mLocationCallback)
             }
 
