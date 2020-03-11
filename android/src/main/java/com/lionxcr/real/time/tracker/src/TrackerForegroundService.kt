@@ -11,6 +11,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
+import android.os.SystemClock
 import androidx.core.app.NotificationCompat
 
 
@@ -29,9 +30,9 @@ class TrackerForegroundService : Service() {
         createNotificationChannel()
         startForeground(NOTIFICATION_ID, createNotification(intent))
         createLocationPendingIntent()
-        mAlarmManager!!.setRepeating(
+        mAlarmManager!!.setInexactRepeating(
                 AlarmManager.RTC,
-                System.currentTimeMillis() + LOCATION_UPDATE_INTERVAL.toLong(),
+                SystemClock.elapsedRealtime() + LOCATION_UPDATE_INTERVAL.toLong(),
                 LOCATION_UPDATE_INTERVAL.toLong(),
                 mLocationBackgroundServicePendingIntent
         )
