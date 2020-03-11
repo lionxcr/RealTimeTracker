@@ -30,9 +30,9 @@ class TrackerForegroundService : Service() {
         createNotificationChannel()
         startForeground(NOTIFICATION_ID, createNotification(intent))
         createLocationPendingIntent()
-        mAlarmManager!!.setInexactRepeating(
+        mAlarmManager!!.setRepeating(
                 AlarmManager.RTC,
-                SystemClock.elapsedRealtime() + LOCATION_UPDATE_INTERVAL.toLong(),
+                SystemClock.elapsedRealtime(),
                 LOCATION_UPDATE_INTERVAL.toLong(),
                 mLocationBackgroundServicePendingIntent
         )
@@ -80,7 +80,7 @@ class TrackerForegroundService : Service() {
         const val NOTIFICATION_ID = 1
         const val LOCATION_EVENT_NAME = "com.lionxcr.real.time.tracker.LOCATION_INFO"
         const val LOCATION_EVENT_DATA_NAME = "LocationData"
-        const val LOCATION_UPDATE_INTERVAL = 120000 // 120 seconds
+        const val LOCATION_UPDATE_INTERVAL = 2 * 60 * 1000 // 120 seconds
         const val JS_LOCATION_LAT_KEY = "latitude"
         const val JS_LOCATION_LON_KEY = "longitude"
         const val JS_LOCATION_TIME_KEY = "timestamp"
