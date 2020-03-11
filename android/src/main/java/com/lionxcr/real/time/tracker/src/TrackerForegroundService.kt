@@ -79,7 +79,7 @@ class TrackerForegroundService : Service() {
         const val NOTIFICATION_ID = 1
         const val LOCATION_EVENT_NAME = "com.lionxcr.real.time.tracker.LOCATION_INFO"
         const val LOCATION_EVENT_DATA_NAME = "LocationData"
-        const val LOCATION_UPDATE_INTERVAL = 30000 // 30 seconds
+        const val LOCATION_UPDATE_INTERVAL = 60000 // 60 seconds
         const val JS_LOCATION_LAT_KEY = "latitude"
         const val JS_LOCATION_LON_KEY = "longitude"
         const val JS_LOCATION_TIME_KEY = "timestamp"

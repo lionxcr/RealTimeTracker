@@ -46,10 +46,9 @@ class TrackerBackgroundService: IntentService(TrackerBackgroundService::class.ja
                 if (locationResult == null) {
                     return
                 }
-                for (location in locationResult.locations) {
-                    val locationCoordinates = createCoordinates(location.latitude, location.longitude)
-                    broadcastLocationReceived(locationCoordinates)
-                }
+                val location = locationResult.locations.last()
+                val locationCoordinates = createCoordinates(location.latitude, location.longitude)
+                broadcastLocationReceived(locationCoordinates)
                 mFusedLocationClient!!.removeLocationUpdates(mLocationCallback!!)
             }
         }
