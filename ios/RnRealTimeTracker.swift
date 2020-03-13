@@ -39,7 +39,7 @@ class RnRealtimeTracker: NSObject, RCTBridgeModule {
         gpsTracker.stopLocationManager()
     }
     
-    @objc func getCurrentLocationForUser(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    @objc(getCurrentLocationForUser:rejecter:) func getCurrentLocationForUser(_ resolve: RCTPromiseResolveBlock, rejecter reject: RCTPromiseRejectBlock) {
         let currentLocation: CLLocation? = gpsTracker.getCurrentLocation()
         if let location = currentLocation {
             var data: [AnyHashable: Any] = [:]
