@@ -14,14 +14,26 @@ class EventEmitter {
     
     private static var eventEmitter: ReactNativeEventEmitter!
     
+    private static var hasListeners: Bool!
+    
     private init() {}
     
     func registerEmitter(eventEmitter: ReactNativeEventEmitter){
-        EventEmitter.self.eventEmitter = eventEmitter
+        EventEmitter.eventEmitter = eventEmitter
+    }
+    
+    func registerListener() {
+        EventEmitter.hasListeners = true
+    }
+    
+    func unRegisterListener() {
+        EventEmitter.hasListeners = false
     }
     
     func dispatch(name: String, body: Any?) {
-        EventEmitter.eventEmitter.sendEvent(withName: name, body: body)
+        if (EventEmitter.hasListeners) {
+            EventEmitter.eventEmitter.sendEvent(withName: name, body: body)
+        }
     }
     
     lazy var allEvents: [String] = {

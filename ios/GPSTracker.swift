@@ -31,6 +31,7 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     }
     
     func stopLocationManager() {
+        EventEmitter.sharedInstance.unRegisterListener()
         locationManager.stopUpdatingLocation()
     }
     
@@ -77,14 +78,17 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .denied:
+            EventEmitter.sharedInstance.registerListener()
             sendFailureEvent(reason: FAILURES.PERMISSIONS_DENIED, message: nil)
         default:
+            EventEmitter.sharedInstance.registerListener()
             locationManager.startUpdatingLocation()
         }
     }
     
     internal func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         sendFailureEvent(reason: FAILURES.SYSTEM_ERROR, message: error.localizedDescription)
+        EventEmitter.sharedInstance.unRegisterListener()
         locationManager.stopUpdatingLocation()
     }
     
