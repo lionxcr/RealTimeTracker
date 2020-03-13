@@ -52,7 +52,10 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     
     private func scheduleTimer(location: CLLocation) {
         DispatchQueue.global().asyncAfter(deadline: .now() + timeInterval, execute: {
-            self.sendLocationEvent(location: location)
+            if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
+            CLLocationManager.authorizationStatus() == .authorizedAlways) {
+                self.sendLocationEvent(location: location)
+            }
         })
     }
     
