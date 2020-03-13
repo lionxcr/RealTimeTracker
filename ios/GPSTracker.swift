@@ -17,7 +17,8 @@ struct FAILURES {
 class GPSTracker: NSObject, CLLocationManagerDelegate {
     private var locationManager: CLLocationManager = CLLocationManager()
     var timeInterval: TimeInterval = 3
-    var timeSendUpdates: Timer!
+    weak var timer: Timer?
+    var timerDispatchSourceTimer : DispatchSourceTimer?
     
     override init() {
         super.init()
@@ -36,10 +37,17 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     
     func stopLocationManager() {
         EventEmitter.sharedInstance.unRegisterListener()
-        if (timeSendUpdates != nil) {
-            timeSendUpdates.invalidate()
-        }
+        stopTimer()
         locationManager.stopUpdatingLocation()
+    }
+    
+    private func stopTimer() {
+        timer?.invalidate()
+        timerDispatchSourceTimer?.cancel()
+    }
+    
+    deinit {
+        stopTimer()
     }
     
     func getCurrentLocation() -> CLLocation? {
@@ -60,8 +68,21 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     
     private func scheduleTimer() {
         print("STARTED TIMER")
-        timeSendUpdates = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(self.sendLocationUpdate), userInfo: nil, repeats: true)
-        print(timeSendUpdates as Any)
+        if #available(iOS 10.0, *) {
+            timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { [weak self] _ in
+                self?.sendLocationUpdate()
+            }
+
+        } else {
+            // Fallback on earlier versions
+            timerDispatchSourceTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.main)
+            timerDispatchSourceTimer?.schedule(deadline: .now(), repeating: .seconds(60))
+            timerDispatchSourceTimer?.setEventHandler{
+                self.sendLocationUpdate()
+
+            }
+            timerDispatchSourceTimer?.resume()
+        }
     }
     
     @objc func sendLocationUpdate() {
