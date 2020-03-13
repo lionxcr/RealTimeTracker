@@ -16,7 +16,6 @@ struct FAILURES {
 
 class GPSTracker: NSObject, CLLocationManagerDelegate {
     private var locationManager: CLLocationManager = CLLocationManager()
-    private let eventEmiter: EventEmiter = EventEmiter()
     var timeInterval: Double = 0.30
     
     override init() {
@@ -62,14 +61,14 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
         eventData.updateValue(location.coordinate.latitude, forKey: Constants.JS_LOCATION_LAT_KEY)
         eventData.updateValue(location.coordinate.longitude, forKey: Constants.JS_LOCATION_LON_KEY)
         eventData.updateValue(Date().timeIntervalSinceNow, forKey: Constants.JS_LOCATION_TIME_KEY)
-        eventEmiter.sendEvent(withName: Constants.JS_LOCATION_EVENT_NAME, body: eventData)
+        EventEmitter.sharedInstance.dispatch(name: Constants.JS_LOCATION_EVENT_NAME, body: eventData)
     }
     
     private func sendFailureEvent(reason: String, message: String?){
         var eventData: [AnyHashable: Any] = [:]
         eventData.updateValue(reason, forKey: "error")
         eventData.updateValue(message ?? "", forKey: "description")
-        eventEmiter.sendEvent(withName: Constants.JS_LOCATION_EVENT_DENIED_NAME, body: eventData)
+        EventEmitter.sharedInstance.dispatch(name: Constants.JS_LOCATION_EVENT_DENIED_NAME, body: eventData)
     }
     
     internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
