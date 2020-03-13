@@ -27,6 +27,7 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     }
     
     func startLocationManager() {
+        EventEmitter.sharedInstance.registerListener()
         locationManager.requestAlwaysAuthorization()
     }
     
@@ -78,10 +79,8 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .denied:
-            EventEmitter.sharedInstance.registerListener()
             sendFailureEvent(reason: FAILURES.PERMISSIONS_DENIED, message: nil)
         default:
-            EventEmitter.sharedInstance.registerListener()
             locationManager.startUpdatingLocation()
         }
     }
