@@ -15,6 +15,10 @@ open class ReactNativeEventEmitter: RCTEventEmitter {
         EventEmitter.sharedInstance.registerEmitter(eventEmitter: self)
     }
     
+    open override class func requiresMainQueueSetup() -> Bool {
+        return true
+    }
+    
     @objc open override func supportedEvents() -> [String]! {
         return EventEmitter.sharedInstance.allEvents
     }
