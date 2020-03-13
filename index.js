@@ -1,7 +1,8 @@
 import {
   NativeModules,
   PermissionsAndroid,
-  DeviceEventEmitter
+  DeviceEventEmitter,
+  Platform
 } from 'react-native';
 
 
@@ -44,17 +45,17 @@ const RNTracker = {
     }
   },
   startTracker: () => RnRealTimeTracker.startBackgroundLocation(),
-  checkGPSAndroidStatus: () => RnRealTimeTracker.checkGPSStatus(),
+  checkGPSAndroidStatus: () => Platform.OS === 'android' ? RnRealTimeTracker.checkGPSStatus() : console.warn('Function only available for Android'),
   stopTracker: () => RnRealTimeTracker.stopBackgroundLocation(),
   getCurrentLocation: () => RnRealTimeTracker.getCurrentLocationForUser(),
   trackerServiceEvent: (handler) => DeviceEventEmitter.addListener(
     RnRealTimeTracker.RN_LOCATION_EVENT,
     location => handler(location)
   ),
-  trackerServiceFailedEvent: (handler) => DeviceEventEmitter.addListener(
+  trackerServiceFailedEvent: (handler) => Platform.OS === 'ios' ? DeviceEventEmitter.addListener(
     RnRealTimeTracker.RN_LOCATION_EVENT_DENIED,
     error => handler(error)
-  )
+  ) : console.warn('Function only available for iOS')
 }
 
 export default RNTracker;
