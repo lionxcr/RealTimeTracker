@@ -29,7 +29,9 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     
     func startLocationManager() {
         EventEmitter.sharedInstance.registerListener()
+        print("STARTING SERVICE")
         locationManager.requestAlwaysAuthorization()
+        scheduleTimer()
     }
     
     func stopLocationManager() {
@@ -59,7 +61,9 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     }
     
     @objc private func sendLocationUpdate() {
+        print("IN TIMER")
         if let location = locationManager.location {
+            print("SENDING LOCATION")
             sendLocationEvent(location: location)
         }
     }
@@ -85,7 +89,6 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
             sendFailureEvent(reason: FAILURES.PERMISSIONS_DENIED, message: nil)
         default:
             locationManager.startUpdatingLocation()
-            scheduleTimer()
         }
     }
     

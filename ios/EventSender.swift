@@ -31,6 +31,8 @@ class EventEmitter {
     }
     
     func dispatch(name: String, body: Any?) {
+        print("IN EVEMITTER STATUS")
+        print(EventEmitter.hasListeners as Any)
         if (EventEmitter.hasListeners == true) {
             EventEmitter.eventEmitter.sendEvent(withName: name, body: body)
         }
