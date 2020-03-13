@@ -8,17 +8,26 @@
 
 import Foundation
 
-@objc(EventEmiter)
-class EventEmiter: RCTEventEmitter {
+class EventEmitter {
     
-    override class func requiresMainQueueSetup() -> Bool {
-        return true
+    public static var sharedInstance = EventEmitter()
+    
+    private static var eventEmitter: ReactNativeEventEmitter!
+    
+    private init() {}
+    
+    func registerEmitter(eventEmitter: ReactNativeEventEmitter){
+        EventEmitter.self.eventEmitter = eventEmitter
     }
     
-    override func supportedEvents() -> [String]! {
-        return [
-            Constants.JS_LOCATION_EVENT_DENIED_NAME,
-            Constants.JS_LOCATION_EVENT_NAME
-        ]
+    func dispatch(name: String, body: Any?) {
+        EventEmitter.eventEmitter.sendEvent(withName: name, body: body)
     }
+    
+    lazy var allEvents: [String] = {
+        var allEventNames: [String] = []
+        allEventNames.append(Constants.JS_LOCATION_EVENT_DENIED_NAME)
+        allEventNames.append(Constants.JS_LOCATION_EVENT_NAME)
+        return allEventNames
+    }()
 }
