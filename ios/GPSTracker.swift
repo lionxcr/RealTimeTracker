@@ -16,7 +16,7 @@ struct FAILURES {
 
 class GPSTracker: NSObject, CLLocationManagerDelegate {
     private var locationManager: CLLocationManager = CLLocationManager()
-    var timeInterval: TimeInterval = 30
+    var timeInterval: TimeInterval = 45
     weak var timer: Timer?
     var timerDispatchSourceTimer : DispatchSourceTimer?
     
@@ -81,7 +81,7 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
         } else {
             // Fallback on earlier versions
             timerDispatchSourceTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.main)
-            timerDispatchSourceTimer?.schedule(deadline: .now(), repeating: .seconds(30))
+            timerDispatchSourceTimer?.schedule(deadline: .now(), repeating: .seconds(45))
             timerDispatchSourceTimer?.setEventHandler{
                 self.sendLocationUpdate()
 
