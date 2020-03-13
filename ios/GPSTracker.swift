@@ -16,7 +16,7 @@ struct FAILURES {
 
 class GPSTracker: NSObject, CLLocationManagerDelegate {
     private var locationManager: CLLocationManager = CLLocationManager()
-    var timeInterval: Double = 0.30
+    var timeInterval: TimeInterval = 3
     var timeSendUpdates: Timer!
     
     override init() {
