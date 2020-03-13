@@ -44,6 +44,7 @@ const RNTracker = {
     }
   },
   startTracker: () => RnRealTimeTracker.startBackgroundLocation(),
+  checkGPSAndroidStatus: () => RnRealTimeTracker.checkGPSStatus(),
   stopTracker: () => RnRealTimeTracker.stopBackgroundLocation(),
   getCurrentLocation: () => RnRealTimeTracker.getCurrentLocationForUser(),
   trackerServiceEvent: (handler) => DeviceEventEmitter.addListener(

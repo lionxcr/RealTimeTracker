@@ -5,11 +5,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.location.LocationManager
 
 import androidx.core.content.ContextCompat
 import com.facebook.react.bridge.*
 
 import com.facebook.react.modules.core.DeviceEventManagerModule
+import com.google.android.gms.location.LocationServices
 import com.google.gson.Gson
 import com.lionxcr.real.time.tracker.src.*
 
@@ -32,7 +34,9 @@ class  RnRealTimeTrackerModule(private val reactContext: ReactApplicationContext
 
     @ReactMethod
     fun startBackgroundLocation() {
-        ContextCompat.startForegroundService(reactContext, mForegroundServiceIntent)
+        if (checkGPSStatus()) {
+            ContextCompat.startForegroundService(reactContext, mForegroundServiceIntent)
+        }
     }
 
     @ReactMethod
@@ -43,6 +47,12 @@ class  RnRealTimeTrackerModule(private val reactContext: ReactApplicationContext
     @ReactMethod
     fun getCurrentLocationForUser(promise: Promise) {
         currentTracker.findCurrentLocation(promise)
+    }
+
+    @ReactMethod
+    fun checkGPSStatus(): Boolean {
+        val manager: LocationManager = reactContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return manager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 
     override fun getConstants(): Map<String, Any>? {

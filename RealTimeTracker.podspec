@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/github_account/RealTimeTracker.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,swift}"
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.2' } --> s.swift_version = "5.2"
   s.requires_arc = true
 
   s.dependency "React"
