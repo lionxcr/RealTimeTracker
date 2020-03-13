@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.location.LocationManager
+import android.util.Log
 
 import androidx.core.content.ContextCompat
 import com.facebook.react.bridge.*
@@ -52,7 +53,13 @@ class  RnRealTimeTrackerModule(private val reactContext: ReactApplicationContext
     @ReactMethod
     fun checkGPSStatus(): Boolean {
         val manager: LocationManager = reactContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return manager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        if (manager != null) {
+            val check = manager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+            Log.d("GPS CHECK", "$check")
+            return check
+        }
+        Log.d("GPS CHECK", "manager is null")
+        return false
     }
 
     override fun getConstants(): Map<String, Any>? {
