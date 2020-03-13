@@ -59,10 +59,12 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     }
     
     private func scheduleTimer() {
+        print("STARTED TIMER")
         timeSendUpdates = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(self.sendLocationUpdate), userInfo: nil, repeats: true)
+        print(timeSendUpdates as Any)
     }
     
-    @objc private func sendLocationUpdate() {
+    @objc func sendLocationUpdate() {
         print("IN TIMER")
         if let location = locationManager.location {
             print("SENDING LOCATION")
