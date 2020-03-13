@@ -11,6 +11,10 @@ import Foundation
 @objc(EventEmiter)
 class EventEmiter: RCTEventEmitter {
     
+    override class func requiresMainQueueSetup() -> Bool {
+        return true
+    }
+    
     override func sendEvent(withName name: String!, body: Any!) {
         sendEvent(withName: name, body: body)
     }
