@@ -16,7 +16,7 @@ struct FAILURES {
 
 class GPSTracker: NSObject, CLLocationManagerDelegate {
     private var locationManager: CLLocationManager = CLLocationManager()
-    var timeInterval: TimeInterval = 3
+    var timeInterval: TimeInterval = 30
     weak var timer: Timer?
     var timerDispatchSourceTimer : DispatchSourceTimer?
     
@@ -29,16 +29,21 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     }
     
     func startLocationManager() {
-        EventEmitter.sharedInstance.registerListener()
-        print("STARTING SERVICE")
-        locationManager.requestAlwaysAuthorization()
-        scheduleTimer()
+        DispatchQueue.main.async {
+            EventEmitter.sharedInstance.registerListener()
+            print("STARTING SERVICE")
+            self.locationManager.requestAlwaysAuthorization()
+            self.scheduleTimer()
+        }
     }
     
     func stopLocationManager() {
-        EventEmitter.sharedInstance.unRegisterListener()
-        stopTimer()
-        locationManager.stopUpdatingLocation()
+        DispatchQueue.main.async {
+            EventEmitter.sharedInstance.unRegisterListener()
+            self.stopTimer()
+            self.locationManager.stopUpdatingLocation()
+        }
+      
     }
     
     private func stopTimer() {
@@ -76,7 +81,7 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
         } else {
             // Fallback on earlier versions
             timerDispatchSourceTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.main)
-            timerDispatchSourceTimer?.schedule(deadline: .now(), repeating: .seconds(60))
+            timerDispatchSourceTimer?.schedule(deadline: .now(), repeating: .seconds(30))
             timerDispatchSourceTimer?.setEventHandler{
                 self.sendLocationUpdate()
 
