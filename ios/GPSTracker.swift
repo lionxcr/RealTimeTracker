@@ -60,9 +60,7 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     
     @objc private func sendLocationUpdate() {
         if let location = locationManager.location {
-            DispatchQueue.global().async {
-                self.sendLocationEvent(location: location)
-            }
+            sendLocationEvent(location: location)
         }
     }
     
