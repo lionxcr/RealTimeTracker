@@ -8,9 +8,8 @@
 
 import Foundation
 
+@objc(EventEmiter)
 class EventEmiter: RCTEventEmitter {
-    
-    func RCT_EXPORT_MODULE() {}
     
     override func sendEvent(withName name: String!, body: Any!) {
         sendEvent(withName: name, body: body)

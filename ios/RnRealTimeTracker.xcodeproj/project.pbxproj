@@ -14,6 +14,7 @@
 		AA8334262417A94B0004C4B3 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8334252417A94B0004C4B3 /* CoreLocation.framework */; };
 		AA8334282417ADE90004C4B3 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8334272417ADE90004C4B3 /* JavaScriptCore.framework */; };
 		AA83343A2417B1340004C4B3 /* RnRealTimeTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8334392417B1340004C4B3 /* RnRealTimeTracker.m */; };
+		AAE12A79241C1F4000038B44 /* RNEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = AAE12A78241C1F4000038B44 /* RNEventEmitter.m */; };
 		F9ADCCD045507ABFBA59C0B2 /* libPods-RnRealTimeTracker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B824002D9EC369461CAEE7E /* libPods-RnRealTimeTracker.a */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,7 @@
 		AA8334272417ADE90004C4B3 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		AA8334292417ADF20004C4B3 /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/IOBluetooth.framework; sourceTree = DEVELOPER_DIR; };
 		AA8334392417B1340004C4B3 /* RnRealTimeTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RnRealTimeTracker.m; sourceTree = "<group>"; };
+		AAE12A78241C1F4000038B44 /* RNEventEmitter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNEventEmitter.m; sourceTree = "<group>"; };
 		D8978AC8D40EE641E7257A06 /* Pods-RnRealTimeTracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RnRealTimeTracker.debug.xcconfig"; path = "Target Support Files/Pods-RnRealTimeTracker/Pods-RnRealTimeTracker.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +92,7 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				AAE12A78241C1F4000038B44 /* RNEventEmitter.m */,
 				AA8334232417A13C0004C4B3 /* EventSender.swift */,
 				AA833421241797E90004C4B3 /* GPSTracker.swift */,
 				AA83341F241795270004C4B3 /* Constants.swift */,
@@ -206,6 +209,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA8334242417A13C0004C4B3 /* EventSender.swift in Sources */,
+				AAE12A79241C1F4000038B44 /* RNEventEmitter.m in Sources */,
 				AA83340F241784250004C4B3 /* RnRealTimeTracker.swift in Sources */,
 				AA83343A2417B1340004C4B3 /* RnRealTimeTracker.m in Sources */,
 				AA833422241797E90004C4B3 /* GPSTracker.swift in Sources */,
