@@ -69,7 +69,7 @@ const RNTracker = {
         ),
   trackerServiceFailedEvent: handler =>
     iOS()
-      ? DeviceEventEmitter.addListener(
+      ? emitter.addListener(
           RnRealTimeTracker.RN_LOCATION_EVENT_DENIED,
           error => handler(error)
         )
