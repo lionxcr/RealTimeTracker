@@ -17,6 +17,7 @@ struct FAILURES {
 class GPSTracker: NSObject, CLLocationManagerDelegate {
     private var locationManager: CLLocationManager = CLLocationManager()
     var timeInterval: Double = 0.30
+    var timeSendUpdates: Timer!
     
     override init() {
         super.init()
@@ -33,6 +34,7 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     
     func stopLocationManager() {
         EventEmitter.sharedInstance.unRegisterListener()
+        timeSendUpdates.invalidate()
         locationManager.stopUpdatingLocation()
     }
     
@@ -52,13 +54,16 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    private func scheduleTimer(location: CLLocation) {
-        DispatchQueue.global().asyncAfter(deadline: .now() + timeInterval, execute: {
-            if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
-            CLLocationManager.authorizationStatus() == .authorizedAlways) {
+    private func scheduleTimer() {
+        timeSendUpdates = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(self.sendLocationUpdate), userInfo: nil, repeats: true)
+    }
+    
+    @objc private func sendLocationUpdate() {
+        if let location = locationManager.location {
+            DispatchQueue.global().async {
                 self.sendLocationEvent(location: location)
             }
-        })
+        }
     }
     
     private func sendLocationEvent(location: CLLocation){
@@ -82,6 +87,7 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
             sendFailureEvent(reason: FAILURES.PERMISSIONS_DENIED, message: nil)
         default:
             locationManager.startUpdatingLocation()
+            scheduleTimer()
         }
     }
     
@@ -89,13 +95,5 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
         sendFailureEvent(reason: FAILURES.SYSTEM_ERROR, message: error.localizedDescription)
         EventEmitter.sharedInstance.unRegisterListener()
         locationManager.stopUpdatingLocation()
-    }
-    
-    internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let locationObj = locations.last {
-            if locationObj.horizontalAccuracy < kCLLocationAccuracyNearestTenMeters {
-                scheduleTimer(location: locationObj)
-            }
-        }
     }
 }
