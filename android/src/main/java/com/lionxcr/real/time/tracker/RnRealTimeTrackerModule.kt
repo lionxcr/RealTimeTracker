@@ -33,9 +33,7 @@ class  RnRealTimeTrackerModule(private val reactContext: ReactApplicationContext
 
     @ReactMethod
     fun startBackgroundLocation() {
-        if (checkGPSStatus()) {
-            ContextCompat.startForegroundService(reactContext, mForegroundServiceIntent)
-        }
+        ContextCompat.startForegroundService(reactContext, mForegroundServiceIntent)
     }
 
     @ReactMethod
