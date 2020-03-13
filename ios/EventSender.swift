@@ -12,4 +12,11 @@ class EventEmiter: RCTEventEmitter {
     override func sendEvent(withName name: String!, body: Any!) {
         sendEvent(withName: name, body: body)
     }
+    
+    override func supportedEvents() -> [String]! {
+        return [
+            Constants.JS_LOCATION_EVENT_DENIED_NAME,
+            Constants.JS_LOCATION_EVENT_NAME
+        ]
+    }
 }
