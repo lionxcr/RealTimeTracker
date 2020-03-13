@@ -36,7 +36,9 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     
     func stopLocationManager() {
         EventEmitter.sharedInstance.unRegisterListener()
-        timeSendUpdates.invalidate()
+        if (timeSendUpdates != nil) {
+            timeSendUpdates.invalidate()
+        }
         locationManager.stopUpdatingLocation()
     }
     
