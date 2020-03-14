@@ -31,10 +31,12 @@ class EventEmitter {
     }
     
     func dispatch(name: String, body: Any?) {
+        print("GOT MESSAGE")
+        print(name)
+        print(body as Any)
         if (EventEmitter.hasListeners == true) {
-            if (name == Constants.JS_LOCATION_EVENT_NAME || name == Constants.JS_LOCATION_EVENT_DENIED_NAME) {
-                EventEmitter.eventEmitter.sendEvent(withName: name, body: body)
-            }
+           print("SHOULD SEND")
+            EventEmitter.eventEmitter.sendEvent(withName: name, body: body)
         }
     }
 }

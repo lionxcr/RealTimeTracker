@@ -16,7 +16,7 @@ struct FAILURES {
 
 class GPSTracker: NSObject, CLLocationManagerDelegate {
     private var locationManager: CLLocationManager = CLLocationManager()
-    var timeInterval: TimeInterval = 45
+    var timeInterval: TimeInterval = 10
     weak var timer: Timer?
     var timerDispatchSourceTimer : DispatchSourceTimer?
     
@@ -52,6 +52,7 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     }
     
     deinit {
+        print("KILLING CLASS")
         stopTimer()
     }
     
@@ -74,6 +75,7 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     private func scheduleTimer() {
         if #available(iOS 10.0, *) {
             timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) { [weak self] timer in
+                print("IN TIMER")
                 self?.sendLocationUpdate()
                 timer.invalidate()
             }
@@ -92,6 +94,7 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     
     @objc func sendLocationUpdate() {
         if let location = locationManager.location {
+            print("SENDING LOCATION")
             sendLocationEvent(location: location)
         }
     }
@@ -101,6 +104,7 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
         eventData.updateValue(location.coordinate.latitude, forKey: Constants.JS_LOCATION_LAT_KEY)
         eventData.updateValue(location.coordinate.longitude, forKey: Constants.JS_LOCATION_LON_KEY)
         eventData.updateValue(Date().timeIntervalSinceNow, forKey: Constants.JS_LOCATION_TIME_KEY)
+        print("DISPATCHING EVENT")
         EventEmitter.sharedInstance.dispatch(name: ConstantDefinitions.CONST_RN_LOCATION_EVENT_DENIED, body: eventData)
     }
     
