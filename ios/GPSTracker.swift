@@ -105,7 +105,7 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
         eventData.updateValue(location.coordinate.longitude, forKey: Constants.JS_LOCATION_LON_KEY)
         eventData.updateValue(Date().timeIntervalSinceNow, forKey: Constants.JS_LOCATION_TIME_KEY)
         print("DISPATCHING EVENT")
-        EventEmitter.sharedInstance.dispatch(name: ConstantDefinitions.CONST_RN_LOCATION_EVENT_DENIED, body: eventData)
+        EventEmitter.sharedInstance.dispatch(name: ConstantDefinitions.CONST_RN_LOCATION_EVENT, body: eventData)
     }
     
     private func sendFailureEvent(reason: String, message: String?){
