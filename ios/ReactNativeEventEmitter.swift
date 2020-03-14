@@ -21,8 +21,8 @@ open class ReactNativeEventEmitter: RCTEventEmitter {
     
     @objc open override func supportedEvents() -> [String]! {
         var allEventNames: [String] = []
-        allEventNames.append(Constants.JS_LOCATION_EVENT_DENIED_NAME)
-        allEventNames.append(Constants.JS_LOCATION_EVENT_NAME)
+        allEventNames.append(ConstantDefinitions.CONST_RN_LOCATION_EVENT)
+        allEventNames.append(ConstantDefinitions.CONST_RN_LOCATION_EVENT_DENIED)
         return allEventNames
     }
 }

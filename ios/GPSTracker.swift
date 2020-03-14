@@ -100,14 +100,14 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
         eventData.updateValue(location.coordinate.latitude, forKey: Constants.JS_LOCATION_LAT_KEY)
         eventData.updateValue(location.coordinate.longitude, forKey: Constants.JS_LOCATION_LON_KEY)
         eventData.updateValue(Date().timeIntervalSinceNow, forKey: Constants.JS_LOCATION_TIME_KEY)
-        EventEmitter.sharedInstance.dispatch(name: Constants.JS_LOCATION_EVENT_NAME, body: eventData)
+        EventEmitter.sharedInstance.dispatch(name: ConstantDefinitions.CONST_RN_LOCATION_EVENT_DENIED, body: eventData)
     }
     
     private func sendFailureEvent(reason: String, message: String?){
         var eventData: [AnyHashable: Any] = [:]
         eventData.updateValue(reason, forKey: "error")
         eventData.updateValue(message ?? "", forKey: "description")
-        EventEmitter.sharedInstance.dispatch(name: Constants.JS_LOCATION_EVENT_DENIED_NAME, body: eventData)
+        EventEmitter.sharedInstance.dispatch(name: ConstantDefinitions.CONST_RN_LOCATION_EVENT_DENIED, body: eventData)
     }
     
     internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
