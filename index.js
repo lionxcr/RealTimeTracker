@@ -60,7 +60,7 @@ const RNTracker = {
   getCurrentLocation: () => RnRealTimeTracker.getCurrentLocationForUser(),
   trackerServiceEvent: handler =>
     iOS()
-      ? emitter.addListener(RnRealTimeTracker.RN_LOCATION_EVENT, location =>
+      ? emitter.addListener('RN_LOCATION_EVENT', location =>
           handler(location)
         )
       : DeviceEventEmitter.addListener(
@@ -70,7 +70,7 @@ const RNTracker = {
   trackerServiceFailedEvent: handler =>
     iOS()
       ? emitter.addListener(
-          RnRealTimeTracker.RN_LOCATION_EVENT_DENIED,
+          'RN_LOCATION_EVENT_DENIED',
           error => handler(error)
         )
       : console.warn("Function only available for iOS")
