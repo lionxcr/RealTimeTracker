@@ -21,6 +21,7 @@ class RnRealtimeTracker: NSObject, RCTBridgeModule {
     private static func constantsExport() -> Dictionary<AnyHashable, Any> {
         var constants: [AnyHashable: Any] = [:]
         constants.updateValue(Constants.JS_LOCATION_EVENT_NAME, forKey: ConstantDefinitions.CONST_RN_LOCATION_EVENT)
+        constants.updateValue(Constants.JS_LOCATION_EVENT_DENIED_NAME, forKey: ConstantDefinitions.CONST_RN_LOCATION_EVENT_DENIED)
         constants.updateValue(Constants.JS_LOCATION_LAT_KEY, forKey: ConstantDefinitions.CONST_RN_LOCATION_LAT)
         constants.updateValue(Constants.JS_LOCATION_LON_KEY, forKey: ConstantDefinitions.CONST_RN_LOCATION_LON)
         constants.updateValue(Constants.JS_LOCATION_TIME_KEY, forKey: ConstantDefinitions.CONST_RN_LOCATION_TIME)
