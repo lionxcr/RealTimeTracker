@@ -73,8 +73,9 @@ class GPSTracker: NSObject, CLLocationManagerDelegate {
     
     private func scheduleTimer() {
         if #available(iOS 10.0, *) {
-            timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) { [weak self] _ in
+            timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) { [weak self] timer in
                 self?.sendLocationUpdate()
+                timer.invalidate()
             }
 
         } else {
