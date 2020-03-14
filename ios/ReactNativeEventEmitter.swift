@@ -20,6 +20,9 @@ open class ReactNativeEventEmitter: RCTEventEmitter {
     }
     
     @objc open override func supportedEvents() -> [String]! {
-        return EventEmitter.sharedInstance.allEvents
+        var allEventNames: [String] = []
+        allEventNames.append(Constants.JS_LOCATION_EVENT_DENIED_NAME)
+        allEventNames.append(Constants.JS_LOCATION_EVENT_NAME)
+        return allEventNames
     }
 }

@@ -31,17 +31,10 @@ class EventEmitter {
     }
     
     func dispatch(name: String, body: Any?) {
-        print("IN EVEMITTER STATUS")
-        print(EventEmitter.hasListeners as Any)
         if (EventEmitter.hasListeners == true) {
-            EventEmitter.eventEmitter.sendEvent(withName: name, body: body)
+            if (name == Constants.JS_LOCATION_EVENT_NAME || name == Constants.JS_LOCATION_EVENT_DENIED_NAME) {
+                EventEmitter.eventEmitter.sendEvent(withName: name, body: body)
+            }
         }
     }
-    
-    lazy var allEvents: [String] = {
-        var allEventNames: [String] = []
-        allEventNames.append(Constants.JS_LOCATION_EVENT_DENIED_NAME)
-        allEventNames.append(Constants.JS_LOCATION_EVENT_NAME)
-        return allEventNames
-    }()
 }
